@@ -1,25 +1,28 @@
 <script setup>
-import FlipableCard from '../components/FlipableCard.vue'
+import { ref } from 'vue'
+ 
+const props = defineProps({
 
+})
+ 
 </script>
  
 <template>
-  
-  <h1>
-    test
-  </h1>
-  <div class="grid grid-cols-4 bg-blue-500">
-  <div v-for="item in 12" 
-    class="bg-slate-300 h-24 w-24 m-2 rounded-md flex justify-center items-center">
-    {{item}}
-  </div>
-
-</div>
-
-<flipable-card></flipable-card>
-
+    <div class="flip-card">
+    <div class="flip-card-inner">
+    <div class="flip-card-front">
+        <img src="img_avatar.png" alt="Avatar" style="width:300px;height:300px;">
+    </div>
+    <div class="flip-card-back">
+        <h1>John Doe</h1>
+        <p>Architect & Engineer</p>
+        <p>We love that guy</p>
+    </div>
+    </div>
+    </div>
 </template>
  
+
 <style scoped>
  /* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
 .flip-card {

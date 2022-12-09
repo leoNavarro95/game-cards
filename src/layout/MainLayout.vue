@@ -8,7 +8,7 @@ const props = defineProps({
 </script>
  
 <template>
-    <div class="bg-indigo-50 flex flex-col column justify-center items-center h-screen">
+    <div class="bg-indigo-50 flex flex-col column items-center h-screen">
         <slot/>
     </div>
 </template>
