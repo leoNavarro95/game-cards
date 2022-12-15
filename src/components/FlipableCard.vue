@@ -75,7 +75,7 @@ const rotate = computed(() => {
 
 /* Style the back side */
 .flip-card-back {
-  background-color: dodgerblue;
+  background-color: rgba(30, 143, 255, 0.473);
   color: white;
   transform: rotateY(180deg);
 }
