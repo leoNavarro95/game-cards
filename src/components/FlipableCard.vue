@@ -1,36 +1,45 @@
 <script setup>
-import { ref } from 'vue'
- 
-const props = defineProps({
+import { ref, computed } from 'vue'
 
+
+const props = defineProps({
+    width:{ type:String, required: false, default: '100px' },
+    height:{ type:String, required: false, default: '100px' },
 })
- 
+
+
+const clicked = ref(false)
+
+const rotate = computed(() => {
+  return clicked.value ? 'rotateY(180deg)' : 'transform: none'
+})
+
 </script>
  
 <template>
-    <div class="flip-card">
-    <div class="flip-card-inner">
-    <div class="flip-card-front">
-        <img src="img_avatar.png" alt="Avatar" style="width:300px;height:300px;">
-    </div>
-    <div class="flip-card-back">
-        <h1>John Doe</h1>
-        <p>Architect & Engineer</p>
-        <p>We love that guy</p>
-    </div>
-    </div>
+    <div @click="clicked = !clicked" class="flip-card select-none cursor-pointer">
+        <div class="flip-card-inner">
+            <div class="flip-card-front rounded-md">
+                <!-- <img src="img_avatar.png" alt="Avatar" style="width:100px;height:100px;"> -->
+                <slot name="front" />
+                <!-- use <template #front>...</template> -->
+              </div>
+              <div class="flip-card-back rounded-md">
+                <slot name="back" />
+                <!-- use <template #back>...</template> -->
+            </div>
+        </div>
     </div>
 </template>
  
 
 <style scoped>
- /* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
+ 
 .flip-card {
   background-color: transparent;
-  width: 300px;
-  height: 200px;
-  border: 1px solid #f1f1f1;
-  perspective: 1000px; /* Remove this if you don't want the 3D effect */
+  width: v-bind(width);
+  height: v-bind(height);
+  perspective: 1000px; /*Remove this if you don't want the 3D effect */
 }
 
 /* This container is needed to position the front and back side */
@@ -41,12 +50,13 @@ const props = defineProps({
   text-align: center;
   transition: transform 0.8s;
   transform-style: preserve-3d;
+  transform: v-bind(rotate);
 }
 
 /* Do an horizontal flip when you move the mouse over the flip box container */
-.flip-card:hover .flip-card-inner {
+/* .flip-card:hover .flip-card-inner {
   transform: rotateY(180deg);
-}
+} */
 
 /* Position the front and back side */
 .flip-card-front, .flip-card-back {
