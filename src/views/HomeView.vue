@@ -2,13 +2,16 @@
 import { ref, onMounted, computed } from 'vue'
 import {shuffle, makeCouples, getRndNumArr} from '../util/algorithms'
 import {getPokemonsByArr} from '../util/getPokemonsInfo'
+import {useGameStore} from '../stores/GameStore'
 
 import FlipableCard from '../components/FlipableCard.vue'
+import ScoreBoard from '../components/ScoreBoard.vue'
+
+const gameStore = useGameStore()
+
 
 var pokemonsIDs = getRndNumArr(6, 650) //make an arr of 6 random numbers between 0 and 650
 console.log(pokemonsIDs);
-
-
 var pokemons = ref([])
 var pokemonsCouples = ref([])
 
@@ -21,6 +24,19 @@ const getData = async () => {
   console.log(pokemonsCouples.value)
 }
 
+const cardFliped = (flip, pokeItem) => {
+  gameStore.flipCard(pokeItem.name, flip)
+}
+
+const lastMisses = ref(0)
+
+const gotMissed = computed(() =>{
+  if(gameStore.misses > lastMisses.value){
+    lastMisses.value = gameStore.misses
+    return true
+  }
+  return false
+})
 
 onMounted(() => {
   getData()
@@ -40,15 +56,25 @@ onMounted(() => {
     Loading...
   </div>
   
-  <div v-else class="grid gap-2 grid-cols-4 m-4">
-    <flipable-card height="90px" width="80px" v-for="pokeItem in pokemonsCouples" >
-      <template #front>
-        <div>{{pokeItem.name}}</div>
-      </template>
-      <template class="bg-red-300" #back>
-        <img :src="pokeItem.pic_url" :alt="'Name: ' + pokeItem.name" style="width:100%;height:100%;">
-      </template>
-    </flipable-card>
+  <div v-else>
+
+    <score-board :matches="gameStore.getMatches" :flips="gameStore.getTimeFliped"/>
+
+    <div class="grid gap-2 grid-cols-4 m-4">
+      <flipable-card height="100px" width="80px"
+          v-for="pokeItem in pokemonsCouples" :key="pokeItem.name"
+          :card-id="pokeItem.name" :rotate-back="false"
+          @fliped=" (fliped) => cardFliped(fliped, pokeItem)" 
+      >
+        <template #front>
+            <img src="../assets/Pokemon-Logo.png" alt="Pokeom card" style="width:100%;height:100%;">
+        </template>
+        <template #back>
+          <img :src="pokeItem.pic_url" :alt="'Name: ' + pokeItem.name" style="width:100%;height:100%;">
+        </template>
+      </flipable-card>
+    </div>
+
     
   </div>
 

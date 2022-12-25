@@ -5,19 +5,28 @@ import { ref, computed } from 'vue'
 const props = defineProps({
     width:{ type:String, required: false, default: '100px' },
     height:{ type:String, required: false, default: '100px' },
+    rotateBack:{ type: Boolean, required: true},
+    cardId:{ type: String, required: true},
+
 })
 
+const emit = defineEmits(['fliped'])
 
-const clicked = ref(false)
+const fliped = ref(false)
+
+const flipCard = () => {
+  fliped.value = !fliped.value
+  emit('fliped', fliped.value)
+}
 
 const rotate = computed(() => {
-  return clicked.value ? 'rotateY(180deg)' : 'transform: none'
+  return (fliped.value || props.rotateBack) ? 'rotateY(180deg)' : 'transform: none'
 })
 
 </script>
  
 <template>
-    <div @click="clicked = !clicked" class="flip-card select-none cursor-pointer">
+    <div @click="flipCard" class="flip-card select-none cursor-pointer">
         <div class="flip-card-inner">
             <div class="flip-card-front rounded-md">
                 <!-- <img src="img_avatar.png" alt="Avatar" style="width:100px;height:100px;"> -->
@@ -69,7 +78,7 @@ const rotate = computed(() => {
 
 /* Style the front side (fallback if image is missing) */
 .flip-card-front {
-  background-color: #bbb;
+  background-color: rgb(35, 35, 150);
   color: black;
 }
 
