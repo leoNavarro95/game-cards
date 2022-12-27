@@ -5,28 +5,28 @@ import { ref, computed } from 'vue'
 const props = defineProps({
     width:{ type:String, required: false, default: '100px' },
     height:{ type:String, required: false, default: '100px' },
-    rotateBack:{ type: Boolean, required: true},
-    cardId:{ type: String, required: true},
+    
+    isMatched:{ type: Boolean, required: true},
+    isFlipped: { type: Boolean, required: true}
 
 })
 
-const emit = defineEmits(['fliped'])
+const emit = defineEmits(['clicked'])
 
-const fliped = ref(false)
+// const flipped = ref(false)
 
-const flipCard = () => {
-  fliped.value = !fliped.value
-  emit('fliped', fliped.value)
+const clickOnCard = () => {
+  emit('clicked')
 }
 
 const rotate = computed(() => {
-  return (fliped.value || props.rotateBack) ? 'rotateY(180deg)' : 'transform: none'
+  return props.isFlipped ? 'rotateY(180deg)' : 'transform: none'
 })
 
 </script>
  
 <template>
-    <div @click="flipCard" class="flip-card select-none cursor-pointer">
+    <div @click="clickOnCard" class="flip-card select-none cursor-pointer">
         <div class="flip-card-inner">
             <div class="flip-card-front rounded-md">
                 <!-- <img src="img_avatar.png" alt="Avatar" style="width:100px;height:100px;"> -->

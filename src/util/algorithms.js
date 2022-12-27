@@ -36,4 +36,8 @@
         return arr
     }
 
-    export {makeCouples, getRndNumArr, shuffle}
+    const isEmpty = (obj) => {
+        return Object.keys(obj).length === 0
+    }
+
+    export {makeCouples, getRndNumArr, shuffle, isEmpty}

@@ -11,7 +11,6 @@ const gameStore = useGameStore()
 
 
 var pokemonsIDs = getRndNumArr(6, 650) //make an arr of 6 random numbers between 0 and 650
-console.log(pokemonsIDs);
 var pokemons = ref([])
 var pokemonsCouples = ref([])
 
@@ -21,22 +20,12 @@ const getData = async () => {
   pokemons.value = await getPokemonsByArr(pokemonsIDs)
   pokemonsCouples.value = makeCouples(pokemons.value)         //doubles de arr to make couples
   pokemonsCouples.value = shuffle(pokemonsCouples.value)      //shuffles all the objects into the array
-  console.log(pokemonsCouples.value)
+  gameStore.setPokeCards(pokemonsCouples.value)
 }
 
-const cardFliped = (flip, pokeItem) => {
-  gameStore.flipCard(pokeItem.name, flip)
+const cardFliped = (pokeItem) => {
+  gameStore.flipCard(pokeItem)
 }
-
-const lastMisses = ref(0)
-
-const gotMissed = computed(() =>{
-  if(gameStore.misses > lastMisses.value){
-    lastMisses.value = gameStore.misses
-    return true
-  }
-  return false
-})
 
 onMounted(() => {
   getData()
@@ -62,9 +51,10 @@ onMounted(() => {
 
     <div class="grid gap-2 grid-cols-4 m-4">
       <flipable-card height="100px" width="80px"
-          v-for="pokeItem in pokemonsCouples" :key="pokeItem.name"
-          :card-id="pokeItem.name" :rotate-back="false"
-          @fliped=" (fliped) => cardFliped(fliped, pokeItem)" 
+          v-for="pokeItem in gameStore.getPokeCards"
+          :is-matched="pokeItem.isMatched"
+          :is-flipped="pokeItem.isFlipped"
+          @clicked="cardFliped(pokeItem)" 
       >
         <template #front>
             <img src="../assets/Pokemon-Logo.png" alt="Pokeom card" style="width:100%;height:100%;">
@@ -78,11 +68,5 @@ onMounted(() => {
     
   </div>
 
-
-
-
 </template>
  
-<style scoped>
- /* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
-</style>
