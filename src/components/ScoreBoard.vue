@@ -6,6 +6,8 @@ import PillCard from './PillCard.vue'
 const props = defineProps({
     matches: { type: Number, required: true},
     flips: { type: Number, required: true},
+    testMessage: { type: String, required: true},
+
 })
  
 </script>
@@ -20,6 +22,10 @@ const props = defineProps({
 
             <pill-card>
                 <p>Flips: {{ props.flips }}</p>
+            </pill-card>
+
+            <pill-card v-if="props.testMessage">
+                <p>Msg: {{ props.testMessage }}</p>
             </pill-card>
         </div> 
     </div>

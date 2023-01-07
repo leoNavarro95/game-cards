@@ -6,6 +6,7 @@ import {useGameStore} from '../stores/GameStore'
 
 import FlipableCard from '../components/FlipableCard.vue'
 import ScoreBoard from '../components/ScoreBoard.vue'
+import WinnerCard from '../components/WinnerCard.vue'
 
 const gameStore = useGameStore()
 
@@ -47,7 +48,11 @@ onMounted(() => {
   
   <div v-else>
 
-    <score-board :matches="gameStore.getMatches" :flips="gameStore.getTimeFliped"/>
+    
+    <score-board 
+    :matches="gameStore.getMatches" :flips="gameStore.getTimeFliped"
+    :test-message="gameStore.getMatches == 6 ? 'You win' : ''"
+    />
 
     <div class="grid gap-2 grid-cols-4 m-4">
       <flipable-card height="100px" width="80px"
@@ -55,17 +60,18 @@ onMounted(() => {
           :is-matched="pokeItem.isMatched"
           :is-flipped="pokeItem.isFlipped"
           @clicked="cardFliped(pokeItem)" 
-      >
-        <template #front>
+          >
+          <template #front>
             <img src="../assets/Pokemon-Logo.png" alt="Pokeom card" style="width:100%;height:100%;">
-        </template>
-        <template #back>
-          <img :src="pokeItem.pic_url" :alt="'Name: ' + pokeItem.name" style="width:100%;height:100%;">
-        </template>
-      </flipable-card>
-    </div>
-
-    
+          </template>
+          <template #back>
+            <img :src="pokeItem.pic_url" :alt="'Name: ' + pokeItem.name" style="width:100%;height:100%;">
+          </template>
+        </flipable-card>
+      </div>
+      
+      
+      <winner-card v-if="gameStore.getMatches == 0"></winner-card>
   </div>
 
 </template>
