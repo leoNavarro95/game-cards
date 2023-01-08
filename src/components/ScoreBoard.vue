@@ -1,13 +1,11 @@
 <script setup>
-import { ref } from 'vue'
 
 import PillCard from './PillCard.vue'
  
 const props = defineProps({
     matches: { type: Number, required: true},
     flips: { type: Number, required: true},
-    testMessage: { type: String, required: true},
-
+    misses: { type: Number, required: true},
 })
  
 </script>
@@ -22,6 +20,10 @@ const props = defineProps({
 
             <pill-card>
                 <p>Flips: {{ props.flips }}</p>
+            </pill-card>
+
+            <pill-card>
+                <p>Misses: {{ props.misses }}</p>
             </pill-card>
 
             <pill-card v-if="props.testMessage">

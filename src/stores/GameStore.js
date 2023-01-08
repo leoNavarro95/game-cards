@@ -1,6 +1,7 @@
 import { defineStore } from "pinia"
 
-import { isEmpty } from "../util/algorithms"
+import { isEmpty, shuffle, makeCouples, getRndNumArr } from "../util/algorithms"
+import {getPokemonsByArr} from '../util/getPokemonsInfo'
 
 export const useGameStore = defineStore( 'game', {
     state: () => ({
@@ -20,6 +21,9 @@ export const useGameStore = defineStore( 'game', {
     }),
 
     getters: {
+        noExistPokemons(state){
+            return state.pokemonsCards.length == 1
+        },
         getTimeFliped(state) {
             return state.timesFliped
         },
@@ -35,6 +39,17 @@ export const useGameStore = defineStore( 'game', {
     },
 
     actions: {
+        async getData(){
+            var pokemonsIDs = getRndNumArr(6, 650) //make an arr of 6 random numbers between 0 and 650
+            var pokemons = []
+            var pokemonsCouples = []
+
+            pokemons = await getPokemonsByArr(pokemonsIDs)
+            pokemonsCouples = makeCouples(pokemons)         //doubles de arr to make couples
+            pokemonsCouples = shuffle(pokemonsCouples)      //shuffles all the objects into the array
+            this.setPokeCards(pokemonsCouples)
+        },
+
         setPokeCards(pokeArr){
             this.pokemonsCards = []
 
@@ -50,21 +65,18 @@ export const useGameStore = defineStore( 'game', {
                 )
             })
 
-            console.log(this.pokemonsCards)
+            // console.log(this.pokemonsCards)
         },
 
         flipCard( pokeObj ) {
-            console.log(pokeObj)
-            
-            if(pokeObj.isMatched) return // dont flip again 
+
+            if(pokeObj.isMatched || pokeObj.isFlipped) return // dont flip again 
             
             this.timesFliped++
 
             if(!pokeObj.isFlipped){
                 this.pokemonsCards[pokeObj.id].isFlipped = true
             }
-
-            console.log(isEmpty(this.lastPokemonCard))
 
             if(isEmpty(this.lastPokemonCard)){
                 // this.lastPokemonCard = pokeObj //first card flipped, no exist last card flipped
@@ -89,6 +101,17 @@ export const useGameStore = defineStore( 'game', {
                 }, delay)
             }
         },
+
+        resetStore(){
+            this.matches = 0
+            this.timesFliped = 0
+            this.misses = 0
+        },
+
+        async newGame(){
+            this.resetStore()
+            this.getData()
+        }
 
     }
 })

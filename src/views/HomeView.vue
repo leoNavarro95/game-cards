@@ -1,7 +1,6 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
-import {shuffle, makeCouples, getRndNumArr} from '../util/algorithms'
-import {getPokemonsByArr} from '../util/getPokemonsInfo'
+
 import {useGameStore} from '../stores/GameStore'
 
 import FlipableCard from '../components/FlipableCard.vue'
@@ -10,26 +9,12 @@ import WinnerCard from '../components/WinnerCard.vue'
 
 const gameStore = useGameStore()
 
-
-var pokemonsIDs = getRndNumArr(6, 650) //make an arr of 6 random numbers between 0 and 650
-var pokemons = ref([])
-var pokemonsCouples = ref([])
-
-const existPokemons =   computed(() => {return pokemons.value.length == 0})
-
-const getData = async () => {
-  pokemons.value = await getPokemonsByArr(pokemonsIDs)
-  pokemonsCouples.value = makeCouples(pokemons.value)         //doubles de arr to make couples
-  pokemonsCouples.value = shuffle(pokemonsCouples.value)      //shuffles all the objects into the array
-  gameStore.setPokeCards(pokemonsCouples.value)
-}
-
 const cardFliped = (pokeItem) => {
   gameStore.flipCard(pokeItem)
 }
 
 onMounted(() => {
-  getData()
+  gameStore.getData()
 })
 
 
@@ -42,7 +27,7 @@ onMounted(() => {
 <template>
   
 
-  <div v-if="existPokemons" class="text-2xl text-center text-slate-600">
+  <div v-if="gameStore.noExistPokemons" class="text-2xl text-center text-slate-600">
     Loading...
   </div>
   
@@ -50,8 +35,7 @@ onMounted(() => {
 
     
     <score-board 
-    :matches="gameStore.getMatches" :flips="gameStore.getTimeFliped"
-    :test-message="gameStore.getMatches == 6 ? 'You win' : ''"
+    :matches="gameStore.getMatches" :flips="gameStore.getTimeFliped" :misses="gameStore.getMisses"
     />
 
     <div class="grid gap-2 grid-cols-4 m-4">
@@ -71,7 +55,11 @@ onMounted(() => {
       </div>
       
       
-      <winner-card v-if="gameStore.getMatches == 0"></winner-card>
+      <winner-card 
+        :flips="gameStore.getTimeFliped" v-if="gameStore.getMatches == 6"
+        @new-game="gameStore.newGame"
+        >
+      </winner-card>
   </div>
 
 </template>
