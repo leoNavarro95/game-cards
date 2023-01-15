@@ -30,10 +30,11 @@
     }
 
     const makeCouples = (arr) => {
-        arr.forEach(element => {
-            arr.push(element)
+        const cpyArr = [ ...arr]
+        cpyArr.forEach(element => {
+            cpyArr.push(element)
         })
-        return arr
+        return cpyArr
     }
 
     const isEmpty = (obj) => {

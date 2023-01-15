@@ -772,6 +772,11 @@ vite@^3.2.3:
   optionalDependencies:
     fsevents "~2.3.2"
 
+vue-confetti@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/vue-confetti/-/vue-confetti-2.3.0.tgz#c8fbb0081a16ad8e5756ec63de8f454583ce054b"
+  integrity sha512-zmPniVzBKv0ie/BEXBR6Isi08hYSd6lS18b8VduG5BzZ2tv6bO/rlwISg+IpGY2XsqAFTXFdTC28YR+UPocnAw==
+
 vue-demi@*:
   version "0.13.11"
   resolved "https://registry.yarnpkg.com/vue-demi/-/vue-demi-0.13.11.tgz#7d90369bdae8974d87b1973564ad390182410d99"

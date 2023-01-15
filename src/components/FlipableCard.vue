@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { computed } from 'vue'
 
 
 const props = defineProps({
@@ -26,7 +26,7 @@ const rotate = computed(() => {
 </script>
  
 <template>
-    <div @click="clickOnCard" class="flip-card select-none cursor-pointer">
+    <div @click="clickOnCard" class="flip-card select-none cursor-pointer w-full m-auto">
         <div class="flip-card-inner">
             <div class="flip-card-front rounded-md">
                 <!-- <img src="img_avatar.png" alt="Avatar" style="width:100px;height:100px;"> -->

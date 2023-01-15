@@ -9,6 +9,7 @@ export const useGameStore = defineStore( 'game', {
         matches: 0,
         misses: 0,
         lastPokemonCard: {},
+        pokemons: [{}],
         pokemonsCards: [
             {
                 id: Number,
@@ -27,6 +28,9 @@ export const useGameStore = defineStore( 'game', {
         getTimeFliped(state) {
             return state.timesFliped
         },
+        getSinglePokemons(state) {
+            return state.pokemons
+        },
         getMatches(state){
             return state.matches
         },
@@ -41,11 +45,11 @@ export const useGameStore = defineStore( 'game', {
     actions: {
         async getData(){
             var pokemonsIDs = getRndNumArr(6, 650) //make an arr of 6 random numbers between 0 and 650
-            var pokemons = []
             var pokemonsCouples = []
 
-            pokemons = await getPokemonsByArr(pokemonsIDs)
-            pokemonsCouples = makeCouples(pokemons)         //doubles de arr to make couples
+            this.pokemons = await getPokemonsByArr(pokemonsIDs)
+            
+            pokemonsCouples = makeCouples(this.pokemons)         //doubles de arr to make couples
             pokemonsCouples = shuffle(pokemonsCouples)      //shuffles all the objects into the array
             this.setPokeCards(pokemonsCouples)
         },

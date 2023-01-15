@@ -56,7 +56,7 @@ onMounted(() => {
       
       
       <winner-card 
-        :flips="gameStore.getTimeFliped" v-if="gameStore.getMatches == 6"
+        :flips="gameStore.getTimeFliped" v-if="gameStore.getMisses == 1"
         @new-game="gameStore.newGame"
         >
       </winner-card>
