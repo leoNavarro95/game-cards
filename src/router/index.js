@@ -3,7 +3,7 @@ import { createRouter, createWebHistory  } from 'vue-router'
 
 
 import HomeView from '../views/HomeView.vue'
-import Settings from '../views/Settings.vue'
+import About from '../views/About.vue'
 
 const router = createRouter({
     history: createWebHistory(),
@@ -14,14 +14,9 @@ const router = createRouter({
             component: HomeView
         },
         {   
-            path: '/settings',
-            name: 'settings',
-            component: Settings
-        },
-        {   
-            path: '/settings',
+            path: '/about',
             name: 'about',
-            component: Settings
+            component: About
         }
     ]
 })

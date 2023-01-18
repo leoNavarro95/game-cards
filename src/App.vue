@@ -4,7 +4,8 @@
 import {RouterView} from 'vue-router'
 
 import NavBar from './components/NavBar.vue'
-import MainLayout from './layout/MainLayout.vue';
+import MainLayout from './layout/MainLayout.vue'
+import Footer from './components/Footer.vue'
 
 
 </script>
@@ -15,4 +16,6 @@ import MainLayout from './layout/MainLayout.vue';
   <main-layout>
     <RouterView/>
   </main-layout>
+  <Footer/>
+  
 </template>

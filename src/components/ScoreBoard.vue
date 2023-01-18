@@ -11,22 +11,22 @@ const props = defineProps({
 </script>
  
 <template>
-    <div class="bg-indigo-400 m-5 p-2 flex flex-col">
-        <p class="text-lg select-none">Score board:</p>
+    <div class="bg-indigo-200 rounded-lg border border-gray-400 m-4 mt-3 p-2 pt-0 flex flex-col">
+        <p class="text-lg font-sans font-light select-none">Score board</p>
         <div class="flex flex-row">
-            <pill-card>
-                <p>Matches: {{ props.matches }}</p>
+            <pill-card bg_color="bg-indigo-400">
+                <p>🎯 Matches: {{ props.matches }}</p>
             </pill-card>
 
-            <pill-card>
-                <p>Flips: {{ props.flips }}</p>
+            <pill-card bg_color="bg-indigo-400">
+                <p>🔄 Flips: {{ props.flips }}</p>
             </pill-card>
 
-            <pill-card>
-                <p>Misses: {{ props.misses }}</p>
+            <pill-card bg_color="bg-indigo-400">
+                <p>🚫 Misses: {{ props.misses }}</p>
             </pill-card>
 
-            <pill-card v-if="props.testMessage">
+            <pill-card v-if="props.testMessage" bg_color="bg-indigo-400">
                 <p>Msg: {{ props.testMessage }}</p>
             </pill-card>
         </div> 

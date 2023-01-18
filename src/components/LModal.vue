@@ -22,7 +22,7 @@ const classMaximized = computed(()=>{
 <template>
       <div
         v-if="isOpen"
-        class="absolute inset-0 flex items-center justify-center z-0 bg-gray-700 bg-opacity-50"
+        class="absolute inset-0 flex items-center justify-center z-0 bg-gray-700 bg-opacity-50 transition-all"
       >
         <div 
           class="absolute p-6 pt-2 bg-blue-700 bg-opacity-60 backdrop-blur-md rounded-md shadow-xl border border-gray-400"
