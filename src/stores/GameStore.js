@@ -12,6 +12,7 @@ export const useGameStore = defineStore( 'game', {
         misses: 0,
         lastPokemonCard: {},
         pokemons: [{}],
+        blockedDeck: false,
         pokemonsCards: [
             {
                 id: Number,
@@ -77,6 +78,7 @@ export const useGameStore = defineStore( 'game', {
         },
 
         flipCard( pokeObj ) {
+            if(this.blockedDeck) return
 
             if(pokeObj.isMatched || pokeObj.isFlipped) return // dont flip again 
             
@@ -99,13 +101,15 @@ export const useGameStore = defineStore( 'game', {
             } else{
                 // not a match, need to turn over the two cards
                 // need to wait a delay to show the second card
-                const delay = 1500
+                const delay = 750
+                this.blockedDeck = true     // it is not posible to flip another card while two cards are flipped
                 setTimeout(()=>{
                     this.pokemonsCards[pokeObj.id].isFlipped = false
                     this.pokemonsCards[this.lastPokemonCard.id].isFlipped = false
     
                     this.misses++
                     this.lastPokemonCard = {}
+                    this.blockedDeck = false
                 }, delay)
             }
         },
