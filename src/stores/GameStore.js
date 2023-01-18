@@ -3,6 +3,8 @@ import { defineStore } from "pinia"
 import { isEmpty, shuffle, makeCouples, getRndNumArr } from "../util/algorithms"
 import {getPokemonsByArr} from '../util/getPokemonsInfo'
 
+import { bgColorBytype } from '../util/getPokemonsInfo'
+
 export const useGameStore = defineStore( 'game', {
     state: () => ({
         timesFliped: 0,
@@ -16,7 +18,8 @@ export const useGameStore = defineStore( 'game', {
                 name: String,
                 url: String,
                 isMatched: Boolean,
-                isFlipped: Boolean
+                isFlipped: Boolean,
+                bg_color: String
             }
         ]
     }),
@@ -64,7 +67,8 @@ export const useGameStore = defineStore( 'game', {
                         name: pokeitem.name,
                         pic_url: pokeitem.pic_url,
                         isMatched: pokeitem.isMatched,
-                        isFlipped: pokeitem.isFlipped
+                        isFlipped: pokeitem.isFlipped,
+                        bg_color: bgColorBytype[pokeitem.types[0].type.name] 
                     }
                 )
             })

@@ -4,23 +4,36 @@ import { ref } from 'vue';
 import ResumeCards from '../layout/ResumeCardLayout.vue'
 import LButton from './LButton.vue'
 import LModal from './LModal.vue'
+import PokeInfo from './PokeInfo.vue';
 
 import Confetti from "vue-confetti/src/confetti.js"
 
 const confetti = new Confetti()
 
-
-
 const showPokemons = ref(false)
+const showCardsInfo = ref(false)
 
 const props = defineProps({
   flips: {type: Number, required: true}
 })
 
 const emit = defineEmits(['newGame'])
+
+const closeModal = () => {
+  showPokemons.value = false
+  showCardsInfo.value = false
+}
+
+const pokemonIndex = ref(0)
+
+const showPokeInfo = (index) => {
+  pokemonIndex.value = index
+  showCardsInfo.value = true
+
+}
  
 // this.$confetti.start()
-const start = () =>{
+const throwConfetti = () =>{
   confetti.start()
 
   setTimeout(() => {
@@ -28,7 +41,7 @@ const start = () =>{
   }, 3000);
 }
 
-start()
+throwConfetti()
 
 </script>
 
@@ -44,17 +57,17 @@ start()
       </div>
 
       <div class="mt-8 flex flex-col items-center text-lg">
-
           <l-button @click="showPokemons = !showPokemons">👀 Pokemons</l-button>
           <l-button @click="emit('newGame')">🔁 Play again </l-button>
           <l-button>🔗 Share </l-button>
-
-      </div>
-
-      <l-modal title="Discovered pokemons:" :is-open="showPokemons" :disabled="false"
-        @close="showPokemons = false"
-      >
-        <ResumeCards></ResumeCards>
+        </div>
+        
+        <l-modal title="Discovered pokemons:" :is-open="showPokemons" :disabled="false" :is-maximized="showCardsInfo"
+        @close="closeModal()"
+        >
+        <ResumeCards @select-card="(pokemon) => showPokeInfo(pokemon)"></ResumeCards>
+        <poke-info v-if="showCardsInfo" :pokemon-index="pokemonIndex"></poke-info>
+        
       </l-modal>
 
 

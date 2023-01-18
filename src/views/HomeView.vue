@@ -43,6 +43,7 @@ onMounted(() => {
           v-for="pokeItem in gameStore.getPokeCards"
           :is-matched="pokeItem.isMatched"
           :is-flipped="pokeItem.isFlipped"
+          :bg_color="pokeItem.bg_color"
           @clicked="cardFliped(pokeItem)" 
           >
           <template #front>
@@ -56,7 +57,7 @@ onMounted(() => {
       
       
       <winner-card 
-        :flips="gameStore.getTimeFliped" v-if="gameStore.getMisses == 1"
+        :flips="gameStore.getTimeFliped" v-if="gameStore.getMatches == 6"
         @new-game="gameStore.newGame"
         >
       </winner-card>
