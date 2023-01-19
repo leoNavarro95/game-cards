@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import { event } from 'vue-gtag'
+import { event as eventGTag } from 'vue-gtag'
 
 import ResumeCards from '../layout/ResumeCardLayout.vue'
 import LButton from './LButton.vue'
@@ -30,12 +30,17 @@ const pokemonIndex = ref(0)
 const showPokeInfo = (index) => {
   pokemonIndex.value = index
   showCardsInfo.value = true
-  event('showPokemonsInfo', { method: 'Google' })
+  eventGTag('showPokemonsInfo', { method: 'Google' })
 }
 
 const showPokemonCards = () => {
   showPokemons.value = !showPokemons.value
-  event('showPokemons', { method: 'Google' })
+  eventGTag('showPokemons', { method: 'Google' })
+}
+
+const playAgain = () => {
+  emit('newGame')
+  eventGTag('playAgain', { method: 'Google' })
 }
  
 // this.$confetti.start()
@@ -64,7 +69,7 @@ throwConfetti()
 
       <div class="mt-8 flex flex-col items-center text-lg">
           <l-button @click="showPokemonCards()">👀 Pokemons</l-button>
-          <l-button @click="emit('newGame')">🔁 Play again </l-button>
+          <l-button @click="playAgain()">🔁 Play again </l-button>
           <l-button>🔗 Share </l-button>
         </div>
         

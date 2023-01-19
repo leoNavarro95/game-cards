@@ -2,6 +2,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { event as eventGTag } from 'vue-gtag'
 
 import router from '../router'
 
@@ -11,7 +12,23 @@ const props = defineProps({
 
 
 let showMenu = ref(false)
-const toggleNav = () => (showMenu.value = !showMenu.value)
+const toggleNav = (selectedRoute) => {
+  (showMenu.value = !showMenu.value)
+
+  if(selectedRoute == null)
+    eventGTag('Toggle icon', {
+      event_category: 'Navigation',
+      event_label: 'Press nav toggle icon',
+      value: showMenu.value ? 'Open' : 'Close'
+    })
+  
+  eventGTag('Nav to', {
+        event_category: 'Navigation',
+        event_label: 'Navigate to the path:',
+        value: selectedRoute.name
+      })
+
+}
 
 const currentRoute = computed(() => { return useRoute().name})
 
@@ -46,7 +63,7 @@ const allRoutes = router.getRoutes()
           >{{ title }}
         </router-link>
         <!-- Mobile menu button -->
-        <div @click="toggleNav" class="flex md:hidden">
+        <div @click="toggleNav(null)" class="flex md:hidden">
           <button
             type="button"
             class="
@@ -76,7 +93,7 @@ const allRoutes = router.getRoutes()
         "
       >
         <router-link v-for="(route, index) in allRoutes" :key="index"
-          @click="toggleNav" :to="route.path" class="text-gray-100 hover:text-indigo-400" :class="{'underline':currentRoute == 'Home'}">
+          @click="toggleNav(route)" :to="route.path" class="text-gray-100 hover:text-indigo-400" :class="{'underline':currentRoute == 'Home'}">
             {{route.name.toUpperCase()}}
         </router-link>
         
