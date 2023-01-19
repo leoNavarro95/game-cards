@@ -1,5 +1,11 @@
 
 <script setup>
+import { onMounted } from 'vue'
+import { pageview } from 'vue-gtag'
+
+onMounted(() => {
+  pageview("/about")
+})
 
 </script>
 

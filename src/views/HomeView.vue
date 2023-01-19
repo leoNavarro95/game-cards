@@ -1,5 +1,6 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { onMounted } from 'vue'
+import { pageview } from 'vue-gtag'
 
 import {useGameStore} from '../stores/GameStore'
 
@@ -15,6 +16,7 @@ const cardFliped = (pokeItem) => {
 
 onMounted(() => {
   gameStore.getData()
+  pageview("/")
 })
 
 
